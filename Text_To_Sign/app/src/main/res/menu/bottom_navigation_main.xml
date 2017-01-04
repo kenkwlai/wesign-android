@@ -3,13 +3,13 @@
     <item
         android:id="@+id/action_one"
         android:icon="@drawable/icon_translate"
-        android:title="One"/>
+        android:title="Translation"/>
     <item
         android:id="@+id/action_two"
         android:icon="@drawable/icon_dictionary"
-        android:title="Two"/>
+        android:title="Dictionary"/>
     <item
         android:id="@+id/action_three"
         android:icon="@drawable/icon_bookmark"
-        android:title="Three"/>
+        android:title="Bookmark"/>
 </menu>
