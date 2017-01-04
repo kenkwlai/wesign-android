@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class MainActivity extends FragmentActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Translate");
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
 
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -89,11 +91,7 @@ public class MainActivity extends FragmentActivity {
                         return false;
                     }
                 });
-
     }
-
-
-
-
-
 }
+
+
