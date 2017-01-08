@@ -4,7 +4,7 @@
     android:id="@+id/activity_loading"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/loading_screen"
+    android:background="@mipmap/loading_screen"
     tools:context="com.example.waichiuyung.text_to_sign.LoadingActivity">
 
 </RelativeLayout>
