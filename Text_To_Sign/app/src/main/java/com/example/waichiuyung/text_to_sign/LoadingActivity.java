@@ -22,7 +22,7 @@ public class LoadingActivity extends Activity {
                 startActivity(myIntent);
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             }
-        }, 5000);
+        }, 2000);
 
     }
 }

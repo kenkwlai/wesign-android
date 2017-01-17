@@ -1,19 +1,21 @@
 package com.example.waichiuyung.text_to_sign;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TranslateFragment extends Fragment {
-
 
     public TranslateFragment() {
         // Required empty public constructor
@@ -24,6 +26,10 @@ public class TranslateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
+
+
 
         return inflater.inflate(R.layout.fragment_translate, container, false);
 
