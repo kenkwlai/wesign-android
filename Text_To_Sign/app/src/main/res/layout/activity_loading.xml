@@ -7,4 +7,14 @@
     android:background="@mipmap/loading_screen"
     tools:context="com.example.waichiuyung.text_to_sign.LoadingActivity">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:background="@drawable/progress_circle"
+        android:layout_centerInParent="true" />
+
+
+
+
 </RelativeLayout>

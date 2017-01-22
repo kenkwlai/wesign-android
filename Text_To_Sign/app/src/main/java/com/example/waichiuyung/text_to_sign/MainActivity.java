@@ -7,20 +7,30 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class MainActivity extends FragmentActivity implements Serializable{
 
     private String currentFragment;
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ArrayList<Vocabulary> vocabularies = (ArrayList<Vocabulary>) getIntent().getSerializableExtra("wordList");
+
+        bundle = new Bundle();
+        bundle.putSerializable("vocabularies", vocabularies);
 
         currentFragment = "Translate";
 
@@ -45,6 +55,7 @@ public class MainActivity extends FragmentActivity {
                                 if (currentFragment != "Translate") {
                                     TranslateFragment translate = new TranslateFragment();
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                    translate.setArguments(bundle);
                                     transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
                                     transaction.replace(R.id.fragment_area, translate);
                                     transaction.addToBackStack(null);
@@ -58,6 +69,7 @@ public class MainActivity extends FragmentActivity {
                             case R.id.action_two:
                                 if (currentFragment != "Dictionary") {
                                     DictionaryFragment dictionary = new DictionaryFragment();
+                                    dictionary.setArguments(bundle);
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                     if (currentFragment == "Translate"){
                                         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
@@ -76,6 +88,7 @@ public class MainActivity extends FragmentActivity {
                             case R.id.action_three:
                                 if (currentFragment != "Bookmark") {
                                     BookmarkFragment bookmark = new BookmarkFragment();
+                                    bookmark.setArguments(bundle);
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                     transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
                                     transaction.replace(R.id.fragment_area, bookmark);

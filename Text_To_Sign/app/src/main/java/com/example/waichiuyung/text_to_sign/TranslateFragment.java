@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 
@@ -27,11 +28,26 @@ public class TranslateFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        View myView = inflater.inflate(R.layout.fragment_translate, container, false);
+
+
+        try {
+            String link="https://s3.amazonaws.com/ma2-storage/signs/little_sister.mp4";
+            VideoView videoView = (VideoView) myView.findViewById(R.id.videoView);
+            MediaController mediaController = new MediaController(getContext());
+            mediaController.setAnchorView(videoView);
+            Uri video = Uri.parse(link);
+            videoView.setMediaController(mediaController);
+            videoView.setVideoURI(video);
+            videoView.start();
+        } catch (Exception e) {
+            // TODO: handle exception
+            // Toast.makeText(this, "Error connecting", Toast.LENGTH_SHORT).show();
+        }
 
 
 
-
-        return inflater.inflate(R.layout.fragment_translate, container, false);
+        return myView;
 
     }
 
