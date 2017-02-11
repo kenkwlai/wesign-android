@@ -11,12 +11,19 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.waichiuyung.text_to_sign.Factories.RestCall;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cz.msebera.android.httpclient.Header;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -32,10 +39,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static com.example.waichiuyung.text_to_sign.Config.Config.DICTIONARY_URL;
+
 public class LoadingActivity extends Activity implements Serializable{
 
     private LoadDataTask loadDataTask = null;
-//    ArrayList<Vocabulary> vocabularies = new ArrayList<Vocabulary>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,34 +55,17 @@ public class LoadingActivity extends Activity implements Serializable{
     }
 
     public class LoadDataTask extends AsyncTask<Void,Void,ArrayList<Vocabulary>>{
-
-        public final MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
-
-        private String url = "https://sign-lang-backend.herokuapp.com/dictionary";
-
-        OkHttpClient client = new OkHttpClient();
-
         @Override
         protected ArrayList<Vocabulary> doInBackground(Void... params) {
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-            try {
-                Response response = client.newCall(request).execute();
-                ObjectMapper mapper = new ObjectMapper();
-
-                ArrayList<Vocabulary> vocabularies = mapper.readValue(response.body().string(), new TypeReference<List<Vocabulary>>() {});
-
-//                for (Vocabulary word: vocabularies) {
-//                    Log.v("word: ", word.getWord());
-//                }
-
-                return vocabularies;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
+            final ArrayList<Vocabulary> vocabularies = new ArrayList<>();
+            RestCall.syncGet(DICTIONARY_URL, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    List<Vocabulary> result = new Gson().fromJson(response.toString(), new TypeToken<List<Vocabulary>>() {}.getType());
+                    vocabularies.addAll(result);
+                }
+            });
+            return vocabularies;
         }
 
         @Override
@@ -82,17 +73,11 @@ public class LoadingActivity extends Activity implements Serializable{
             loadDataTask = null;
 
             if (result != null) {
-//                for (Vocabulary word: result) {
-//                    Log.v("word: ", word.getWord());
-//                }
-
                 Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-
-
                 myIntent.putExtra("wordList",result);
                 startActivity(myIntent);
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(),"Server Under Maintenance !!", Toast.LENGTH_LONG).show();
 
                 Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);

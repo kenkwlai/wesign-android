@@ -10,12 +10,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="10">
-        <TextView
+
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Translation"
-            android:id="@+id/translationText"
-            android:layout_weight="1"/>
+            android:hint="Translation"
+            android:inputType="text"
+            android:id="@+id/translationText" />
 
         <VideoView
             android:id="@+id/videoView"
@@ -30,19 +31,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vocab List"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:id="@+id/translatedText" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="center" />
+            android:text="Translate!"
+            android:layout_gravity="center"
+            android:id="@+id/translationButton"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"/>
 
     </LinearLayout>
+
+    <!-- Progress bar overlay; shown while loading is in progress -->
+    <include layout="@layout/progress_overlay"/>
 
 
 </FrameLayout>
