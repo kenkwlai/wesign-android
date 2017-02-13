@@ -66,7 +66,7 @@ public class DictionaryFragment extends Fragment {
         }
 
         for (Vocabulary word : vocabularies) {
-//            Log.v("word: ", word.getWordType());
+            Log.i("word: ", word.getWordType());
             vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
         }
 

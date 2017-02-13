@@ -16,7 +16,7 @@ public class Vocabulary implements Serializable {
     @JsonProperty("path")
     private String path;
     @JsonProperty("wordType")
-    private String word_type;
+    private String wordType;
     @JsonProperty("prefix")
     private String prefix;
     @JsonProperty("frequency")
@@ -39,6 +39,6 @@ public class Vocabulary implements Serializable {
     }
 
     public String getWordType() {
-        return word_type;
+        return wordType;
     }
 }

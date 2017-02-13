@@ -79,10 +79,9 @@ public class LoadingActivity extends Activity implements Serializable{
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             } else {
                 Toast.makeText(getApplicationContext(),"Server Under Maintenance !!", Toast.LENGTH_LONG).show();
-
-                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(myIntent);
-                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+//                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(myIntent);
+//                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             }
         }
 

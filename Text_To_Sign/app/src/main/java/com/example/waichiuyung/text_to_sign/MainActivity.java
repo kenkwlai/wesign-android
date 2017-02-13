@@ -29,6 +29,7 @@ public class MainActivity extends FragmentActivity implements Serializable{
 
         ArrayList<Vocabulary> vocabularies = (ArrayList<Vocabulary>) getIntent().getSerializableExtra("wordList");
 
+
         bundle = new Bundle();
         bundle.putSerializable("vocabularies", vocabularies);
 
