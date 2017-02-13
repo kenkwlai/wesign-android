@@ -16,6 +16,16 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/icon_bookmark"
+        android:src="@drawable/icon_bookmark" />
+    <VideoView
+        android:id="@+id/videoView"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_below="@+id/vocab"
+        android:visibility="gone"
         />
 </RelativeLayout>

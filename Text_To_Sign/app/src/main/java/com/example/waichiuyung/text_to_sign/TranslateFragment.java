@@ -32,7 +32,7 @@ public class TranslateFragment extends Fragment {
 
 
         try {
-            String link="https://s3.amazonaws.com/ma2-storage/signs/little_sister.mp4";
+            String link="https://sign-lang-backend.herokuapp.com/translate";
             VideoView videoView = (VideoView) myView.findViewById(R.id.videoView);
             MediaController mediaController = new MediaController(getContext());
             mediaController.setAnchorView(videoView);

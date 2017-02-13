@@ -49,17 +49,8 @@ public class LoadingActivity extends Activity implements Serializable{
     public class LoadDataTask extends AsyncTask<Void,Void,ArrayList<Vocabulary>>{
 
         public final MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
-        // private String url = "http://10.0.2.2:9000/dictionary";
-        private String url = "https://sign-lang-backend.herokuapp.com/dictionary";
-        /*
-        OkHttpClient.Builder clientBuilder = new OkHttpClient().newBuilder();
 
-        OkHttpClient client = clientBuilder.connectTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .build();
-        ;
-        */
+        private String url = "https://sign-lang-backend.herokuapp.com/dictionary";
 
         OkHttpClient client = new OkHttpClient();
 

@@ -10,4 +10,8 @@
     <color name="b4_click">#2ba8b9</color>
     <color name="systemBar">#5ab8bf</color>
     <color name="black_overlay">#66000000</color>
+    <color name="b4_bm">#bce8e7</color>
+    <color name="after_bm">#167a82</color>
+
+
 </resources>
