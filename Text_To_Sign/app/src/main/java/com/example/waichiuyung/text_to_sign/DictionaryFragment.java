@@ -2,18 +2,12 @@ package com.example.waichiuyung.text_to_sign;
 
 
 import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,17 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
-import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-
-import static java.lang.Boolean.FALSE;
 
 
 /**
@@ -59,6 +46,8 @@ public class DictionaryFragment extends Fragment {
 
     Activity mActivity;
 
+    private SharedPreferences bmPrefs;
+    public static final String BM_PREFS = "BookMarkFile";
 
     public DictionaryFragment() {
         // Required empty public constructor
@@ -77,8 +66,15 @@ public class DictionaryFragment extends Fragment {
         }
 
         for (Vocabulary word : vocabularies) {
-            //Log.v("word: ", word.getWordType());
+//            Log.v("word: ", word.getWordType());
             vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+        }
+
+        bmPrefs = getActivity().getSharedPreferences(BM_PREFS,0);
+
+        String[] bm = bmPrefs.getString("Bookmark", "").split("\\|");
+        for(String score : bm){
+            bookmark_list.add(score);
         }
 
         changeColor(myView);
@@ -331,7 +327,7 @@ public class DictionaryFragment extends Fragment {
 
         @NonNull
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, final View convertView, ViewGroup parent) {
             View itemView = convertView;
             if (itemView == null) {
                 itemView = getActivity().getLayoutInflater().inflate(R.layout.listitem_dictionary, parent, false);
@@ -378,10 +374,13 @@ public class DictionaryFragment extends Fragment {
             final ImageView bookmark_button = (ImageView) itemView.findViewById(R.id.setBookmark);
             if (bookmarked.get(position) || bookmark_list.contains(currentWordList.getWord())) {
                 bookmark_button.setColorFilter(getResources().getColor(R.color.after_bm));
+                bookmarked.set(position,true);
             } else {
                 bookmark_button.setColorFilter(getResources().getColor(R.color.b4_bm));
             }
 
+            final SharedPreferences.Editor bmEdit = bmPrefs.edit();
+            bmEdit.clear();
             bookmark_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -394,9 +393,20 @@ public class DictionaryFragment extends Fragment {
                         bookmarked.set(position,true);
                         bookmark_list.add(currentWordList.getWord());
                     }
-                    for (String word: bookmark_list) {
-                        Log.v("word", word);
+
+                    for (String vocab : bookmark_list){
+                        Log.v("bm ed ", vocab);
                     }
+                    // Add bookmark to preference
+                    StringBuilder bmBuild = new StringBuilder("");
+
+                    for (int s = 0; s < bookmark_list.size(); s++) {
+                        if (s > 0) bmBuild.append("|");//pipe separate the score strings
+                        bmBuild.append(bookmark_list.get(s));
+                    }
+
+                    bmEdit.putString("Bookmark",bmBuild.toString());
+                    bmEdit.commit();
                 }
             });
 
