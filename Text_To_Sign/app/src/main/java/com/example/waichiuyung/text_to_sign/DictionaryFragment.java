@@ -2,6 +2,7 @@ package com.example.waichiuyung.text_to_sign;
 
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -14,13 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.VideoView;
 import java.util.ArrayList;
-import java.util.Set;
 
 
 /**
@@ -28,6 +30,7 @@ import java.util.Set;
  */
 public class DictionaryFragment extends Fragment {
     TextView noun, verb, adjective, pronoun, number, other, all;
+    SearchView searchView;
     static Boolean all_selected = true;
     static Boolean noun_selected = false;
     static Boolean verb_selected = false;
@@ -57,7 +60,7 @@ public class DictionaryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View myView = inflater.inflate(R.layout.fragment_dictionary, container, false);
+        final View myView = inflater.inflate(R.layout.fragment_dictionary, container, false);
 
 
         Bundle bundle = this.getArguments();
@@ -66,7 +69,6 @@ public class DictionaryFragment extends Fragment {
         }
 
         for (Vocabulary word : vocabularies) {
-            Log.i("word: ", word.getWordType());
             vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
         }
 
@@ -78,9 +80,46 @@ public class DictionaryFragment extends Fragment {
         }
 
         changeColor(myView);
+        searchView = (SearchView) myView.findViewById(R.id.searchView);
+        final SearchManager searchManager = (SearchManager)
+                mActivity.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                // this is your adapter that will be filtered
+                return false;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                VocabArrayAdapter.getFilter().filter(query);
+                Log.v("query",query);
+                return true;
+            }
+        };
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(mActivity.getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(queryTextListener);
+
+
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (searchView.getQuery().length()>0){
+                    Log.v("1","first x");
+                    searchView.setQuery("", false);
+                }else{
+                    searchView.onActionViewCollapsed();
+                    setupList(addList());
+                }
+                return false;
+            }
+        });
+
 
         listView = (ListView) myView.findViewById(R.id.dict_listView);
-        setupList(myView);
+        setupList(vocab_list);
 
 
         return myView;
@@ -95,6 +134,10 @@ public class DictionaryFragment extends Fragment {
         pronoun = (TextView) v.findViewById(R.id.pronoun);
         number = (TextView) v.findViewById(R.id.number);
         other = (TextView) v.findViewById(R.id.other);
+        searchView = (SearchView) v.findViewById(R.id.searchView);
+
+
+
 
         noun.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +226,8 @@ public class DictionaryFragment extends Fragment {
         all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                searchView.setQuery("", false);
+                searchView.onActionViewCollapsed();
                 if (all_selected) {
                     // 一開波check左  禁落去唔會uncheck
                     // checkButton();
@@ -202,7 +247,7 @@ public class DictionaryFragment extends Fragment {
                     pronoun_selected = false;
                     number_selected = false;
                     other_selected = false;
-                    addList(v);
+                    setupList(addList());
                 }
             }
         });
@@ -210,6 +255,9 @@ public class DictionaryFragment extends Fragment {
     }
 
     public void checkButton(View v) {
+
+        searchView.setQuery("", false);
+        searchView.onActionViewCollapsed();
 
         // 5個製禁曬 check 全部 + uncheck 5個
         if (noun_selected && verb_selected && adjective_selected && pronoun_selected && number_selected && other_selected) {
@@ -236,11 +284,10 @@ public class DictionaryFragment extends Fragment {
             all.setBackground(getResources().getDrawable(R.drawable.round_rect_shape));
             all_selected = true;
         }
-        addList(v);
+        setupList(addList());
     }
 
-    private void addList(View v) {
-        Log.v("add list function", "ADAD");
+    private ArrayList<WordList> addList() {
         vocab_list.clear();
 
         if (all_selected) {
@@ -296,7 +343,8 @@ public class DictionaryFragment extends Fragment {
 
             }
         }
-        setupList(v);
+
+        return vocab_list;
     }
 
     @Override
@@ -308,21 +356,35 @@ public class DictionaryFragment extends Fragment {
         }
     }
 
-    private void setupList(final View v) {
-        VocabArrayAdapter = new VocabListAdapter(vocab_list);
+    private void setupList(ArrayList<WordList> list) {
+        VocabArrayAdapter = new VocabListAdapter(list);
         listView.setAdapter(VocabArrayAdapter);
         VocabArrayAdapter.notifyDataSetChanged();
-
     }
 
     private class VocabListAdapter extends ArrayAdapter<WordList> {
         private ArrayList<WordList> vocab_list;
         private ArrayList<String> clicked = new ArrayList<String>();
         private ArrayList<Boolean> bookmarked = new ArrayList<Boolean>();
+        private WordFilter wordFilter;
+        private ArrayList<WordList> filteredList;
+
 
         public VocabListAdapter(ArrayList<WordList> vocab_list) {
             super(DictionaryFragment.this.getContext(), R.layout.listitem_dictionary, vocab_list);
-            this.vocab_list = vocab_list;
+            this.vocab_list = addList();
+            this.filteredList = vocab_list;
+            getFilter();
+        }
+
+
+
+        @Override
+        public Filter getFilter() {
+            if (wordFilter == null) {
+                wordFilter = new WordFilter();
+            }
+            return wordFilter;
         }
 
         @NonNull
@@ -334,7 +396,7 @@ public class DictionaryFragment extends Fragment {
             }
 
             // init
-            final WordList currentWordList = vocab_list.get(position);
+            final WordList currentWordList = filteredList.get(position);
             clicked.add("FALSE");
             bookmarked.add(false);
 
@@ -394,9 +456,7 @@ public class DictionaryFragment extends Fragment {
                         bookmark_list.add(currentWordList.getWord());
                     }
 
-                    for (String vocab : bookmark_list){
-                        Log.v("bm ed ", vocab);
-                    }
+
                     // Add bookmark to preference
                     StringBuilder bmBuild = new StringBuilder("");
 
@@ -414,6 +474,46 @@ public class DictionaryFragment extends Fragment {
 
             VocabArrayAdapter.notifyDataSetChanged();
             return itemView;
+        }
+
+        private class WordFilter extends Filter {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                if (constraint!=null && constraint.length()>0) {
+                    ArrayList<WordList> tempList = new ArrayList<WordList>();
+
+                    // search content in friend list
+                    for (WordList word : vocab_list) {
+                        if (word.getWord().contains(constraint.toString())) {
+                            tempList.add(word);
+                        }
+                    }
+
+                    filterResults.count = tempList.size();
+                    filterResults.values = tempList;
+                } else {
+                    filterResults.count = vocab_list.size();
+                    filterResults.values = vocab_list;
+                }
+
+                return filterResults;
+            }
+
+            /**
+             * Notify about filtered list to ui
+             * @param constraint text
+             * @param results filtered result
+             */
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredList.clear();
+                filteredList = (ArrayList<WordList>) results.values;
+                VocabArrayAdapter.clear();
+                setupList(filteredList);
+            }
         }
 
 
