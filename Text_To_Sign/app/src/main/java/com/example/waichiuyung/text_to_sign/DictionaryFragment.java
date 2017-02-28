@@ -34,6 +34,9 @@ import java.util.ArrayList;
 public class DictionaryFragment extends Fragment {
     TextView noun, verb, adjective, pronoun, number, other, all;
     SearchView searchView;
+    ListView listView;
+    Activity mActivity;
+
     static Boolean all_selected = true;
     static Boolean noun_selected = false;
     static Boolean verb_selected = false;
@@ -42,15 +45,11 @@ public class DictionaryFragment extends Fragment {
     static Boolean number_selected = false;
     static Boolean other_selected = false;
 
-    private ListView listView;
-
     ArrayList<WordList> vocab_list = new ArrayList<WordList>();
     ArrayList<String> bookmark_list = new ArrayList<String>();
-
     ArrayList<Vocabulary> vocabularies;
-    ArrayAdapter<WordList> VocabArrayAdapter;
 
-    Activity mActivity;
+    ArrayAdapter<WordList> VocabArrayAdapter;
 
     private SharedPreferences bmPrefs;
     public static final String BM_PREFS = "BookMarkFile";
@@ -65,24 +64,25 @@ public class DictionaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View myView = inflater.inflate(R.layout.fragment_dictionary, container, false);
 
-
+        // get vocabularies from MainActivity
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             vocabularies = (ArrayList<Vocabulary>) bundle.getSerializable("vocabularies");
         }
-
         for (Vocabulary word : vocabularies) {
             vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
         }
 
+        // get bookmark list from shared preference
         bmPrefs = getActivity().getSharedPreferences(BM_PREFS,0);
-
         String[] bm = bmPrefs.getString("Bookmark", "").split("\\|");
         for(String score : bm){
             bookmark_list.add(score);
         }
 
         changeColor(myView);
+
+        // searchView behavior : search / cancel
         searchView = (SearchView) myView.findViewById(R.id.searchView);
         final SearchManager searchManager = (SearchManager)
                 mActivity.getSystemService(Context.SEARCH_SERVICE);
@@ -99,13 +99,9 @@ public class DictionaryFragment extends Fragment {
                 return true;
             }
         };
-        searchView.setSearchableInfo(searchManager.
-                getSearchableInfo(mActivity.getComponentName()));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(mActivity.getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(queryTextListener);
-
-
-
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -120,15 +116,13 @@ public class DictionaryFragment extends Fragment {
             }
         });
 
-
+        // set up initial listViwe
         listView = (ListView) myView.findViewById(R.id.dict_listView);
         setupList(vocab_list);
-
-
         return myView;
     }
 
-
+    // Change button color when click
     public void changeColor(View v) {
         all = (TextView) v.findViewById(R.id.all);
         noun = (TextView) v.findViewById(R.id.noun);
@@ -138,9 +132,6 @@ public class DictionaryFragment extends Fragment {
         number = (TextView) v.findViewById(R.id.number);
         other = (TextView) v.findViewById(R.id.other);
         searchView = (SearchView) v.findViewById(R.id.searchView);
-
-
-
 
         noun.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,6 +250,7 @@ public class DictionaryFragment extends Fragment {
 
     public void checkButton(View v) {
 
+        // delete searchView query
         searchView.setQuery("", false);
         searchView.onActionViewCollapsed();
 
@@ -290,6 +282,7 @@ public class DictionaryFragment extends Fragment {
         setupList(addList());
     }
 
+    // Return vocab_list according to wordType selected
     private ArrayList<WordList> addList() {
         vocab_list.clear();
 
@@ -346,7 +339,6 @@ public class DictionaryFragment extends Fragment {
 
             }
         }
-
         return vocab_list;
     }
 
@@ -359,6 +351,7 @@ public class DictionaryFragment extends Fragment {
         }
     }
 
+    // set up List
     private void setupList(ArrayList<WordList> list) {
         VocabArrayAdapter = new VocabListAdapter(list);
         listView.setAdapter(VocabArrayAdapter);
@@ -402,7 +395,6 @@ public class DictionaryFragment extends Fragment {
             final WordList currentWordList = filteredList.get(position);
             clicked.add("FALSE");
             bookmarked.add(false);
-
 
             // Set VideoView Behavior
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -472,15 +464,11 @@ public class DictionaryFragment extends Fragment {
                     bmEdit.commit();
                 }
             });
-
-
-
             VocabArrayAdapter.notifyDataSetChanged();
             return itemView;
         }
 
         private class WordFilter extends Filter {
-
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
@@ -493,7 +481,6 @@ public class DictionaryFragment extends Fragment {
                             tempList.add(word);
                         }
                     }
-
                     filterResults.count = tempList.size();
                     filterResults.values = tempList;
                 } else {
@@ -518,7 +505,5 @@ public class DictionaryFragment extends Fragment {
                 setupList(filteredList);
             }
         }
-
-
     }
 }
