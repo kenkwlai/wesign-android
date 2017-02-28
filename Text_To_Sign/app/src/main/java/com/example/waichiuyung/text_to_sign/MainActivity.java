@@ -1,5 +1,6 @@
 package com.example.waichiuyung.text_to_sign;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
@@ -12,8 +13,12 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends FragmentActivity implements Serializable{
 
@@ -21,14 +26,21 @@ public class MainActivity extends FragmentActivity implements Serializable{
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
     private Bundle bundle;
+    private SharedPreferences vocabPrefs;
+    public static final String VOCAB_PREFS = "VocabFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Vocabulary> vocabularies = (ArrayList<Vocabulary>) getIntent().getSerializableExtra("wordList");
+        ArrayList<Vocabulary> vocabularies = new ArrayList<>();
 
+        // get vocab list from saved JSON
+        vocabPrefs = getSharedPreferences(VOCAB_PREFS,0);
+        String JSON = vocabPrefs.getString("VocabJSON", "");
+        List<Vocabulary> result = new Gson().fromJson(JSON, new TypeToken<List<Vocabulary>>() {}.getType());
+        vocabularies.addAll(result);
 
         bundle = new Bundle();
         bundle.putSerializable("vocabularies", vocabularies);

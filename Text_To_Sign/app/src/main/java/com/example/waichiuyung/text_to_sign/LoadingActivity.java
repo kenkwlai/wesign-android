@@ -2,6 +2,7 @@ package com.example.waichiuyung.text_to_sign;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,17 +42,31 @@ import javax.net.ssl.HttpsURLConnection;
 
 import static com.example.waichiuyung.text_to_sign.Config.Config.DICTIONARY_URL;
 
-public class LoadingActivity extends Activity implements Serializable{
+public class LoadingActivity extends Activity{
 
     private LoadDataTask loadDataTask = null;
+    private SharedPreferences vocabPrefs;
+    public static String VOCAB_PREFS = "VocabFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-
-        loadDataTask = new LoadDataTask();
-        loadDataTask.execute((Void) null);
+        vocabPrefs = getSharedPreferences(VOCAB_PREFS,0);
+        String JSON = vocabPrefs.getString("VocabJSON", "");
+        if (JSON.length()>0){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(myIntent);
+                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                }
+            }, 5000);
+        }else {
+            loadDataTask = new LoadDataTask();
+            loadDataTask.execute((Void) null);
+        }
     }
 
     public class LoadDataTask extends AsyncTask<Void,Void,ArrayList<Vocabulary>>{
@@ -61,10 +76,16 @@ public class LoadingActivity extends Activity implements Serializable{
             RestCall.syncGet(DICTIONARY_URL, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                    List<Vocabulary> result = new Gson().fromJson(response.toString(), new TypeToken<List<Vocabulary>>() {}.getType());
-                    vocabularies.addAll(result);
+
+                    SharedPreferences.Editor vocabEdit = vocabPrefs.edit();
+                    vocabEdit.putString("VocabJSON",response.toString());
+                    vocabEdit.commit();
+
                 }
             });
+
+
+
             return vocabularies;
         }
 
@@ -74,14 +95,10 @@ public class LoadingActivity extends Activity implements Serializable{
 
             if (result != null) {
                 Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-                myIntent.putExtra("wordList",result);
                 startActivity(myIntent);
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             } else {
                 Toast.makeText(getApplicationContext(),"Server Under Maintenance !!", Toast.LENGTH_LONG).show();
-//                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(myIntent);
-//                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             }
         }
 

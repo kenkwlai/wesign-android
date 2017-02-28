@@ -136,6 +136,7 @@ public class DictionaryFragment extends Fragment {
         noun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uncheck();
                 if (noun_selected) {
                     noun.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
                     noun_selected = false;
@@ -150,6 +151,7 @@ public class DictionaryFragment extends Fragment {
         verb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uncheck();
                 if (verb_selected) {
                     verb.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
                     verb_selected = false;
@@ -164,6 +166,7 @@ public class DictionaryFragment extends Fragment {
         adjective.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uncheck();
                 if (adjective_selected) {
                     adjective.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
                     adjective_selected = false;
@@ -178,6 +181,7 @@ public class DictionaryFragment extends Fragment {
         pronoun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uncheck();
                 if (pronoun_selected) {
                     pronoun.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
                     pronoun_selected = false;
@@ -192,6 +196,7 @@ public class DictionaryFragment extends Fragment {
         number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uncheck();
                 if (number_selected) {
                     number.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
                     number_selected = false;
@@ -206,6 +211,7 @@ public class DictionaryFragment extends Fragment {
         other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uncheck();
                 if (other_selected) {
                     other.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
                     other_selected = false;
@@ -246,6 +252,21 @@ public class DictionaryFragment extends Fragment {
             }
         });
 
+    }
+
+    public void uncheck(){
+        noun.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
+        verb.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
+        adjective.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
+        pronoun.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
+        number.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
+        other.setBackground(getResources().getDrawable(R.drawable.round_empty_rect_shape));
+        noun_selected = false;
+        verb_selected = false;
+        adjective_selected = false;
+        pronoun_selected = false;
+        number_selected = false;
+        other_selected = false;
     }
 
     public void checkButton(View v) {
