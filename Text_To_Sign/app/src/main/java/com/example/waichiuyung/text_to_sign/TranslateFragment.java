@@ -4,6 +4,8 @@ package com.example.waichiuyung.text_to_sign;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MediaController;
@@ -18,19 +21,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.waichiuyung.text_to_sign.Adaptors.VocabularyAdapter;
 import com.example.waichiuyung.text_to_sign.Factories.RestCall;
 import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
+import static com.example.waichiuyung.text_to_sign.Config.Config.TRANSLATE_TEXT_URL;
 import static com.example.waichiuyung.text_to_sign.Config.Config.TRANSLATE_URL;
 
 
@@ -45,7 +55,11 @@ public class TranslateFragment extends Fragment {
     private EditText translateEdit;
     private VideoView videoView;
     private TextView resultView;
+    private RecyclerView resultContentView;
     private View progressOverlay;
+
+    private final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+    private List<Vocabulary> vocabularyList;
 
     public TranslateFragment() {
         // Required empty public constructor
@@ -60,6 +74,7 @@ public class TranslateFragment extends Fragment {
         videoView = (VideoView) myView.findViewById(R.id.videoView);
         translateEdit = (EditText) myView.findViewById(R.id.translationText);
         resultView = (TextView) myView.findViewById(R.id.translatedText);
+        resultContentView = (RecyclerView) myView.findViewById(R.id.translatedContent);
         translateButton = (Button) myView.findViewById(R.id.translationButton);
         progressOverlay = myView.findViewById(R.id.progress_overlay);
 
@@ -70,7 +85,6 @@ public class TranslateFragment extends Fragment {
                 Log.i("action: ", Integer.toString(actionId));
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     translateInput = translateEdit.getText().toString();
-                    resultView.setText(translateInput);
                     Log.i("text: ", translateInput);
                     handled = true;
                     InputMethodManager inputManager =
@@ -87,6 +101,14 @@ public class TranslateFragment extends Fragment {
         translateButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (translateInput == null) {
+                    if (translateEdit.getText().toString().equals("")) {
+                        Toast.makeText(getContext(), "Please enter input." , Toast.LENGTH_LONG).show();
+                        return;
+                    } else {
+                        translateInput = translateEdit.getText().toString();
+                    }
+                }
                 JSONObject jsonParams = new JSONObject();
                 StringEntity entity = null;
                 try {
@@ -98,11 +120,18 @@ public class TranslateFragment extends Fragment {
                     e.printStackTrace();
                 }
                 MyUtils.animateView(progressOverlay, View.VISIBLE, 0.5f, 200);
+                RestCall.asyncPost(getContext(), TRANSLATE_TEXT_URL, entity, "application/json", new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        vocabularyList = new Gson().fromJson(response.toString(), new TypeToken<List<Vocabulary>>() {}.getType());
+                        Log.i("size: ", Integer.toString(vocabularyList.size()));
+                    }
+                });
                 RestCall.asyncPost(getContext(), TRANSLATE_URL, entity, "application/json", new FileAsyncHttpResponseHandler(getContext()) {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                         Log.d("status: ", Integer.toString(statusCode));
-                        Toast.makeText(getContext(),"Please retry later.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Please try again later.", Toast.LENGTH_LONG).show();
                         MyUtils.animateView(progressOverlay, View.GONE, 0, 200);
                     }
 
@@ -112,6 +141,10 @@ public class TranslateFragment extends Fragment {
                         mediaController.setAnchorView(videoView);
                         videoView.setMediaController(mediaController);
                         videoView.setVideoPath(file.getAbsolutePath());
+                        // TODO:  set text to result view
+                        VocabularyAdapter vocabularyAdapter = new VocabularyAdapter(vocabularyList);
+                        resultContentView.setAdapter(vocabularyAdapter);
+                        resultContentView.setLayoutManager(layoutManager);
                         MyUtils.animateView(progressOverlay, View.GONE, 0, 200);
                         videoView.start();
                     }
@@ -120,7 +153,5 @@ public class TranslateFragment extends Fragment {
         });
 
         return myView;
-
     }
-
 }

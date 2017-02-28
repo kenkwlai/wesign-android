@@ -22,6 +22,9 @@ import android.widget.MediaController;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
+
 import java.util.ArrayList;
 
 
@@ -69,7 +72,7 @@ public class DictionaryFragment extends Fragment {
         }
 
         for (Vocabulary word : vocabularies) {
-            vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+            vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
         }
 
         bmPrefs = getActivity().getSharedPreferences(BM_PREFS,0);
@@ -292,53 +295,53 @@ public class DictionaryFragment extends Fragment {
 
         if (all_selected) {
             for (Vocabulary word : vocabularies) {
-                vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+                vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
             }
         }
         if (noun_selected) {
             for (Vocabulary word : vocabularies) {
-                if (word.getWordType().equals("noun")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+                if (MyUtils.matchType(word, "noun")) {
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
         }
         if (verb_selected) {
             for (Vocabulary word : vocabularies) {
-                if (word.getWordType().equals("verb")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+                if (MyUtils.matchType(word, "verb")) {
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
         }
         if (adjective_selected) {
             for (Vocabulary word : vocabularies) {
-                if (word.getWordType().equals("adjective")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+                if (MyUtils.matchType(word, "adjective")) {
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
         }
         if (pronoun_selected) {
             for (Vocabulary word : vocabularies) {
-                if (word.getWordType().equals("pronoun")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+                if (MyUtils.matchType(word, "pronoun")) {
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
         }
         if (number_selected) {
             for (Vocabulary word : vocabularies) {
-                if (word.getWordType().equals("number")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+                if (MyUtils.matchType(word, "number")) {
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
         }
         if (other_selected) {
             for (Vocabulary word : vocabularies) {
-                if (!((word.getWordType().equals("noun")) || (word.getWordType().equals("verb")) || (word.getWordType().equals("adjective")) || (word.getWordType().equals("pronoun")) || (word.getWordType().equals("number")))) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+                if (!(MyUtils.matchType(word, "noun") || MyUtils.matchType(word, "verb") || MyUtils.matchType(word, "adjective") || MyUtils.matchType(word, "pronoun") || MyUtils.matchType(word, "number"))) {
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
                 }
 
             }

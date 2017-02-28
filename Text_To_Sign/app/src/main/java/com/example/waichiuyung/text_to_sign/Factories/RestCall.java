@@ -17,12 +17,12 @@ public class RestCall {
     private static SyncHttpClient syncClient = new SyncHttpClient();
 
     public static void syncGet(String url, AsyncHttpResponseHandler responseHandler) {
-        syncClient.setTimeout(20000);
+        syncClient.setTimeout(30000);
         syncClient.get(url, responseHandler);
     }
 
     public static void asyncPost(Context context, String url, StringEntity entity, String contentType, AsyncHttpResponseHandler responseHandler) {
-        asyncClient.setTimeout(20000);
+        asyncClient.setTimeout(30000);
         asyncClient.post(context, url, entity, contentType, responseHandler);
     }
 }

@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 
+import com.example.waichiuyung.text_to_sign.Vocabulary;
+
 /**
  * Created by Ken Lai on 11/2/2017.
  */
@@ -30,5 +32,9 @@ public class MyUtils {
                         view.setVisibility(toVisibility);
                     }
                 });
+    }
+
+    public static boolean matchType(Vocabulary v, String type) {
+        return (v.getType1().equals(type) || v.getType2().equals(type));
     }
 }

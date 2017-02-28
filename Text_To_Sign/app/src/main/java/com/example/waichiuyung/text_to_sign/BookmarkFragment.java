@@ -62,7 +62,7 @@ public class BookmarkFragment extends Fragment {
         for (Vocabulary word : vocabularies) {
             if (bookmark_list!= null){
                 if (bookmark_list.contains(word.getWord())){
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getWordType()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
                 }
             }
         }
