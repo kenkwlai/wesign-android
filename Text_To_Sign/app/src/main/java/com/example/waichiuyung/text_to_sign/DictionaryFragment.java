@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -96,6 +97,12 @@ public class DictionaryFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 VocabArrayAdapter.getFilter().filter(query);
                 Log.v("query",query);
+                InputMethodManager inputManager =
+                        (InputMethodManager) getContext().
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(
+                        getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 return true;
             }
         };
@@ -116,6 +123,12 @@ public class DictionaryFragment extends Fragment {
             }
         });
 
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(false);
+            }
+        });
         // set up initial listViwe
         listView = (ListView) myView.findViewById(R.id.dict_listView);
         setupList(vocab_list);
