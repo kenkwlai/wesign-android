@@ -9,15 +9,15 @@ public class WordList {
     private String word ;
     private String path;
     private String prefix;
-    private int frequency;
+    private double duration;
     private String type1;
     private String type2;
 
-    public WordList(String word,String path,String prefix, int frequency, String type1, String type2) {
+    public WordList(String word, String path, String prefix, double duration, String type1, String type2) {
         this.word = word;
         this.path = path;
         this.prefix = prefix;
-        this.frequency = frequency;
+        this.duration = duration;
         this.type1 = type1;
         this.type2 = type2;
     }
@@ -46,12 +46,12 @@ public class WordList {
         this.prefix = prefix;
     }
 
-    public int getFrequency(){
-        return frequency;
+    public double getDuration(){
+        return duration;
     }
 
-    public void setFrequency(int frequency){
-        this.frequency = frequency;
+    public void setDuration(int duration){
+        this.duration = duration;
     }
 
     public String getType1(){

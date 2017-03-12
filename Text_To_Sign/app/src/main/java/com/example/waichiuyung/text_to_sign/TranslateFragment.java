@@ -2,10 +2,12 @@ package com.example.waichiuyung.text_to_sign;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,8 @@ import android.widget.VideoView;
 import com.example.waichiuyung.text_to_sign.Adaptors.VocabularyAdapter;
 import com.example.waichiuyung.text_to_sign.Factories.RestCall;
 import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
+import com.example.waichiuyung.text_to_sign.Views.SignTextView;
+import com.example.waichiuyung.text_to_sign.Views.SignVideoView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -53,13 +58,15 @@ public class TranslateFragment extends Fragment {
     private String translateInput;
     private Button translateButton;
     private EditText translateEdit;
-    private VideoView videoView;
-    private TextView resultView;
-    private RecyclerView resultContentView;
+    private SignVideoView videoView;
+    private TextView originalText;
+    private SignTextView resultContentView;
+    private HorizontalScrollView translatedHonrizontal;
     private View progressOverlay;
 
-    private final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+    //private final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
     private List<Vocabulary> vocabularyList;
+    private MediaController mediaController;
 
     public TranslateFragment() {
         // Required empty public constructor
@@ -71,12 +78,29 @@ public class TranslateFragment extends Fragment {
         // Inflate the layout for this fragment
 
         myView = inflater.inflate(R.layout.fragment_translate, container, false);
-        videoView = (VideoView) myView.findViewById(R.id.videoView);
+        videoView = (SignVideoView) myView.findViewById(R.id.videoView);
         translateEdit = (EditText) myView.findViewById(R.id.translationText);
-        resultView = (TextView) myView.findViewById(R.id.translatedText);
-        resultContentView = (RecyclerView) myView.findViewById(R.id.translatedContent);
+        originalText = (TextView) myView.findViewById(R.id.originalText);
+        resultContentView = (SignTextView) myView.findViewById(R.id.translatedContent);
         translateButton = (Button) myView.findViewById(R.id.translationButton);
         progressOverlay = myView.findViewById(R.id.progress_overlay);
+        translatedHonrizontal = (HorizontalScrollView) myView.findViewById(R.id.translatedTextHorizontal);
+        mediaController = new MediaController(getContext());
+
+        resultContentView.setParent(translatedHonrizontal);
+        videoView.setPlayPauseListener(new SignVideoView.PlayPauseListener() {
+            @Override
+            public void onPlay() {
+                resultContentView.animateText();
+                mediaController.hide();
+            }
+
+            @Override
+            public void onPause() {
+                resultContentView.pauseAnimation();
+                mediaController.hide();
+            }
+        });
 
         translateEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -124,6 +148,7 @@ public class TranslateFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                         vocabularyList = new Gson().fromJson(response.toString(), new TypeToken<List<Vocabulary>>() {}.getType());
+                        resultContentView.setList(vocabularyList);
                         Log.i("size: ", Integer.toString(vocabularyList.size()));
                     }
                 });
@@ -137,16 +162,16 @@ public class TranslateFragment extends Fragment {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, File file) {
-                        MediaController mediaController = new MediaController(getContext());
                         mediaController.setAnchorView(videoView);
+                        mediaController.setMediaPlayer(videoView);
+                        videoView.setMediaController(mediaController);
                         videoView.setMediaController(mediaController);
                         videoView.setVideoPath(file.getAbsolutePath());
-                        // TODO:  set text to result view
-                        VocabularyAdapter vocabularyAdapter = new VocabularyAdapter(vocabularyList);
-                        resultContentView.setAdapter(vocabularyAdapter);
-                        resultContentView.setLayoutManager(layoutManager);
+                        originalText.setText(translateInput);
                         MyUtils.animateView(progressOverlay, View.GONE, 0, 200);
                         videoView.start();
+                        resultContentView.startAnimation();
+                        mediaController.hide();
                     }
                 });
             }

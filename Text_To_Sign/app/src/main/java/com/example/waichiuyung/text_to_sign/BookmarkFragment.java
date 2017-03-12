@@ -18,6 +18,8 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.example.waichiuyung.text_to_sign.Views.SignVideoView;
+
 import java.util.ArrayList;
 
 
@@ -62,7 +64,7 @@ public class BookmarkFragment extends Fragment {
         for (Vocabulary word : vocabularies) {
             if (bookmark_list!= null){
                 if (bookmark_list.contains(word.getWord())){
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
                 }
             }
         }
@@ -109,26 +111,38 @@ public class BookmarkFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                    VideoView videoView = (VideoView) arg1.findViewById(R.id.videoView);
+                    SignVideoView videoView = (SignVideoView) arg1.findViewById(R.id.videoView);
+                    final MediaController mediaController = new MediaController(getContext());
+                    videoView.setPlayPauseListener(new SignVideoView.PlayPauseListener() {
+                        @Override
+                        public void onPlay() {
+                            mediaController.hide();
+                        }
+
+                        @Override
+                        public void onPause() {
+                            mediaController.hide();
+                        }
+                    });
                     clicked.set(position,"TRUE");
                     if (clicked.get(position) != "FALSE") {
                         videoView.setVisibility(View.VISIBLE);
                     }
                     try {
                         String link=vocab_list.get(position).getPath();
-                        MediaController mediaController = new MediaController(getContext());
                         mediaController.setAnchorView(videoView);
                         Uri video = Uri.parse(link);
                         videoView.setMediaController(mediaController);
                         videoView.setVideoURI(video);
                         videoView.start();
+                        mediaController.hide();
                     } catch (Exception e) {
                         // TODO: handle exception
                         // Toast.makeText(this, "Error connecting", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-            VideoView videoView = (VideoView) itemView.findViewById(R.id.videoView);
+            SignVideoView videoView = (SignVideoView) itemView.findViewById(R.id.videoView);
             if (clicked.get(position) == "FALSE") {
                 videoView.setVisibility(View.GONE);
             }

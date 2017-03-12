@@ -5,13 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,14 +16,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.waichiuyung.text_to_sign.Config.Config.CONFIG_PREFS;
+import static com.example.waichiuyung.text_to_sign.Config.Config.VOCAB_JSON;
+
 public class MainActivity extends FragmentActivity implements Serializable{
 
     private String currentFragment;
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
     private Bundle bundle;
-    private SharedPreferences vocabPrefs;
-    public static final String VOCAB_PREFS = "VocabFile";
+    private SharedPreferences Prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +35,8 @@ public class MainActivity extends FragmentActivity implements Serializable{
         ArrayList<Vocabulary> vocabularies = new ArrayList<>();
 
         // get vocab list from saved JSON
-        vocabPrefs = getSharedPreferences(VOCAB_PREFS,0);
-        String JSON = vocabPrefs.getString("VocabJSON", "");
+        Prefs = getSharedPreferences(CONFIG_PREFS, 0);
+        String JSON = Prefs.getString(VOCAB_JSON, "");
         List<Vocabulary> result = new Gson().fromJson(JSON, new TypeToken<List<Vocabulary>>() {}.getType());
         vocabularies.addAll(result);
 
