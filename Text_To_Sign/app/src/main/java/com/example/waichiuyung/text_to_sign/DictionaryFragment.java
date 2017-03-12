@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
+import com.example.waichiuyung.text_to_sign.Views.SignVideoView;
 
 import java.util.ArrayList;
 
@@ -71,7 +72,7 @@ public class DictionaryFragment extends Fragment {
             vocabularies = (ArrayList<Vocabulary>) bundle.getSerializable("vocabularies");
         }
         for (Vocabulary word : vocabularies) {
-            vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+            vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
         }
 
         // get bookmark list from shared preference
@@ -322,13 +323,13 @@ public class DictionaryFragment extends Fragment {
 
         if (all_selected) {
             for (Vocabulary word : vocabularies) {
-                vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+                vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
             }
         }
         if (noun_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "noun")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
@@ -336,7 +337,7 @@ public class DictionaryFragment extends Fragment {
         if (verb_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "verb")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
@@ -344,7 +345,7 @@ public class DictionaryFragment extends Fragment {
         if (adjective_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "adjective")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
@@ -352,7 +353,7 @@ public class DictionaryFragment extends Fragment {
         if (pronoun_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "pronoun")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
@@ -360,7 +361,7 @@ public class DictionaryFragment extends Fragment {
         if (number_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "number")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
@@ -368,7 +369,7 @@ public class DictionaryFragment extends Fragment {
         if (other_selected) {
             for (Vocabulary word : vocabularies) {
                 if (!(MyUtils.matchType(word, "noun") || MyUtils.matchType(word, "verb") || MyUtils.matchType(word, "adjective") || MyUtils.matchType(word, "pronoun") || MyUtils.matchType(word, "number"))) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getFrequency().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
                 }
 
             }
@@ -434,26 +435,38 @@ public class DictionaryFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                    VideoView videoView = (VideoView) arg1.findViewById(R.id.videoView);
+                    SignVideoView videoView = (SignVideoView) arg1.findViewById(R.id.videoView);
+                    final MediaController mediaController = new MediaController(getContext());
+                    videoView.setPlayPauseListener(new SignVideoView.PlayPauseListener() {
+                        @Override
+                        public void onPlay() {
+                            mediaController.hide();
+                        }
+
+                        @Override
+                        public void onPause() {
+                            mediaController.hide();
+                        }
+                    });
                     clicked.set(position,"TRUE");
                     if (clicked.get(position) != "FALSE") {
                         videoView.setVisibility(View.VISIBLE);
                     }
                     try {
-                        String link=vocab_list.get(position).getPath();
-                        MediaController mediaController = new MediaController(getContext());
+                        String link = vocab_list.get(position).getPath();
                         mediaController.setAnchorView(videoView);
                         Uri video = Uri.parse(link);
                         videoView.setMediaController(mediaController);
                         videoView.setVideoURI(video);
                         videoView.start();
+                        mediaController.hide();
                     } catch (Exception e) {
                         // TODO: handle exception
                         // Toast.makeText(this, "Error connecting", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-            VideoView videoView = (VideoView) itemView.findViewById(R.id.videoView);
+            SignVideoView videoView = (SignVideoView) itemView.findViewById(R.id.videoView);
             if (clicked.get(position) == "FALSE") {
                 videoView.setVisibility(View.GONE);
             }

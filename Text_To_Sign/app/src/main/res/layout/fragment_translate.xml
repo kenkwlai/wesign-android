@@ -10,17 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10">
+        android:weightSum="11">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Translation"
+            android:hint="請在此輸入"
             android:inputType="text"
             android:textSize="20sp"
+            android:layout_weight="1"
             android:id="@+id/translationText" />
 
-        <VideoView
+        <com.example.waichiuyung.text_to_sign.Views.SignVideoView
             android:id="@+id/videoView"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -29,27 +30,68 @@
             android:layout_gravity="center"
             android:layout_weight="4"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="原句:"
+            android:textSize="15sp"
+            android:layout_weight="1.00"
+            android:layout_marginStart="5dp"
+            android:id="@+id/original" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginStart="5dp"
+            android:id="@+id/originalText" />
+
+        </HorizontalScrollView>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Translated:"
-            android:textSize="20sp"
+            android:text="翻譯後:"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1.00"
-            android:id="@+id/translatedText" />
+            android:id="@+id/translated" />
 
-        <android.support.v7.widget.RecyclerView
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:id="@+id/translatedContent"/>
+            android:layout_weight="2"
+            android:id="@+id/translatedTextHorizontal">
+
+            <com.example.waichiuyung.text_to_sign.Views.SignTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:layout_marginStart="5dp"
+                android:id="@+id/translatedContent" />
+
+        </HorizontalScrollView>
+
+        <!--<android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/translatedContent"/>-->
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="翻譯"
             android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:text="Translate!"
             android:layout_gravity="center"
             android:id="@+id/translationButton"/>
 

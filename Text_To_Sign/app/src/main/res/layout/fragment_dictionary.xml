@@ -12,119 +12,124 @@
         android:weightSum="20">
 
         <LinearLayout
-            android:layout_weight="1"
-            android:weightSum="15"
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@color/search"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:weightSum="15">
+
             <SearchView
+                android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="15dp"
+                android:background="@drawable/round_rect_shape"
                 android:gravity="center"
-                android:id="@+id/searchView"
-                android:background="@drawable/round_rect_shape">
-            </SearchView>
+                android:textSize="15dp"></SearchView>
 
             <HorizontalScrollView
                 android:id="@+id/choiceView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/searchView"
-                android:padding="2dp"
-                android:gravity="center"
                 android:layout_weight="14"
+                android:gravity="center"
+                android:padding="2dp"
                 android:scrollbars="none">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:padding="10dp"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/systemBar"
                         android:background="@drawable/round_rect_shape"
-                        android:text="全部" />
+                        android:padding="10dp"
+                        android:text="全部"
+                        android:textColor="@color/systemBar"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/noun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:padding="10dp"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/systemBar"
                         android:background="@drawable/round_empty_rect_shape"
-                        android:text="名詞" />
+                        android:padding="10dp"
+                        android:text="名詞"
+                        android:textColor="@color/systemBar"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/verb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:padding="10dp"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/systemBar"
                         android:background="@drawable/round_empty_rect_shape"
-                        android:text="動詞" />
+                        android:padding="10dp"
+                        android:text="動詞"
+                        android:textColor="@color/systemBar"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/adjective"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:padding="10dp"
-                        android:textStyle="bold"
-                        android:textSize="15dp"
-                        android:textColor="@color/systemBar"
                         android:background="@drawable/round_empty_rect_shape"
-                        android:text="形容詞"/>
+                        android:padding="10dp"
+                        android:text="形容詞"
+                        android:textColor="@color/systemBar"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/pronoun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:padding="10dp"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/systemBar"
                         android:background="@drawable/round_empty_rect_shape"
-                        android:text="代名詞" />
+                        android:padding="10dp"
+                        android:text="代名詞"
+                        android:textColor="@color/systemBar"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:padding="10dp"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/systemBar"
                         android:background="@drawable/round_empty_rect_shape"
-                        android:text="數詞" />
+                        android:padding="10dp"
+                        android:text="數詞"
+                        android:textColor="@color/systemBar"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:padding="10dp"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/systemBar"
                         android:background="@drawable/round_empty_rect_shape"
-                        android:text="其他" />
+                        android:padding="10dp"
+                        android:text="其他"
+                        android:textColor="@color/systemBar"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -134,15 +139,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="19"
-            android:weightSum="10"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="10">
+
             <ListView
                 android:id="@+id/dict_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"></ListView>
         </LinearLayout>
-
 
 
     </LinearLayout>

@@ -21,15 +21,15 @@ public class Vocabulary implements Serializable {
     private String type2;
     @JsonProperty("prefix")
     private String prefix;
-    @JsonProperty("frequency")
-    private Long frequency;
+    @JsonProperty("duration")
+    private Double duration;
 
     public String getWord() {
         return word;
     }
 
-    public Long getFrequency() {
-        return frequency;
+    public Double getDuration() {
+        return duration;
     }
 
     public String getPath() {

@@ -21,6 +21,11 @@ public class RestCall {
         syncClient.get(url, responseHandler);
     }
 
+    public static void asyncGet(String url, AsyncHttpResponseHandler responseHandler) {
+        asyncClient.setTimeout(30000);
+        asyncClient.get(url, responseHandler);
+    }
+
     public static void asyncPost(Context context, String url, StringEntity entity, String contentType, AsyncHttpResponseHandler responseHandler) {
         asyncClient.setTimeout(30000);
         asyncClient.post(context, url, entity, contentType, responseHandler);
