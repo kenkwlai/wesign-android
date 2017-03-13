@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity implements Serializable{
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_area, translate).commit();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Translate");
+        toolbar.setTitle("翻譯");
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
 
@@ -73,7 +73,7 @@ public class MainActivity extends FragmentActivity implements Serializable{
                                     transaction.commit();
                                     currentFragment = "Translate";
                                     bottomNavigationView.getMenu().getItem(0).setChecked(true);
-                                    toolbar.setTitle("Translate");
+                                    toolbar.setTitle("翻譯");
                                     toolbar.setTitleTextColor(getResources().getColor(R.color.white));
                                 }
                                 break;
@@ -92,7 +92,7 @@ public class MainActivity extends FragmentActivity implements Serializable{
                                     transaction.commit();
                                     currentFragment = "Dictionary";
                                     bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                                    toolbar.setTitle("Dictionary");
+                                    toolbar.setTitle("字典");
                                     toolbar.setTitleTextColor(getResources().getColor(R.color.white));
                                 }
                                 break;
@@ -107,7 +107,7 @@ public class MainActivity extends FragmentActivity implements Serializable{
                                     transaction.commit();
                                     currentFragment = "Bookmark";
                                     bottomNavigationView.getMenu().getItem(2).setChecked(true);
-                                    toolbar.setTitle("Bookmark");
+                                    toolbar.setTitle("書籤");
                                     toolbar.setTitleTextColor(getResources().getColor(R.color.white));
                                 }
                                 break;

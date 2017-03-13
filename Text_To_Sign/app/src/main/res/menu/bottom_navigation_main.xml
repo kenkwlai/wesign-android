@@ -3,13 +3,13 @@
     <item
         android:id="@+id/action_one"
         android:icon="@mipmap/icon_translate"
-        android:title="Translation"/>
+        android:title="翻譯"/>
     <item
         android:id="@+id/action_two"
         android:icon="@mipmap/icon_dictionary"
-        android:title="Dictionary"/>
+        android:title="字典"/>
     <item
         android:id="@+id/action_three"
         android:icon="@mipmap/icon_bookmark"
-        android:title="Bookmark"/>
+        android:title="書籤"/>
 </menu>
