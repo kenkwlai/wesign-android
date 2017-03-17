@@ -116,6 +116,11 @@ public class MainActivity extends FragmentActivity implements Serializable{
                     }
                 });
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 }
 
 

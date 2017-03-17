@@ -88,5 +88,7 @@ public class LoadingActivity extends Activity{
             loadDataTask = null;
         }
 
+        
+
     }
 }

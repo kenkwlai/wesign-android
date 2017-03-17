@@ -39,13 +39,7 @@ public class DictionaryFragment extends Fragment {
     ListView listView;
     Activity mActivity;
 
-    static Boolean all_selected = true;
-    static Boolean noun_selected = false;
-    static Boolean verb_selected = false;
-    static Boolean adjective_selected = false;
-    static Boolean pronoun_selected = false;
-    static Boolean number_selected = false;
-    static Boolean other_selected = false;
+    static Boolean all_selected, noun_selected, verb_selected, adjective_selected, pronoun_selected, number_selected, other_selected;
 
     ArrayList<WordList> vocab_list = new ArrayList<WordList>();
     ArrayList<String> bookmark_list = new ArrayList<String>();
@@ -74,6 +68,14 @@ public class DictionaryFragment extends Fragment {
         for (Vocabulary word : vocabularies) {
             vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
         }
+
+        all_selected=true;
+        noun_selected = false;
+        verb_selected = false;
+        adjective_selected = false;
+        pronoun_selected = false;
+        number_selected = false;
+        other_selected = false;
 
         // get bookmark list from shared preference
         bmPrefs = getActivity().getSharedPreferences(BM_PREFS,0);
@@ -403,7 +405,7 @@ public class DictionaryFragment extends Fragment {
 
         public VocabListAdapter(ArrayList<WordList> vocab_list) {
             super(DictionaryFragment.this.getContext(), R.layout.listitem_dictionary, vocab_list);
-            this.vocab_list = addList();
+            this.vocab_list = vocab_list;
             this.filteredList = vocab_list;
             getFilter();
         }
@@ -526,6 +528,7 @@ public class DictionaryFragment extends Fragment {
                     for (WordList word : vocab_list) {
                         if (word.getWord().contains(constraint.toString())) {
                             tempList.add(word);
+                            Log.v("link",word.getPath());
                         }
                     }
                     filterResults.count = tempList.size();
