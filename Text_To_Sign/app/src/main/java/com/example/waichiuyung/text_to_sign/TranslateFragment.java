@@ -87,6 +87,7 @@ public class TranslateFragment extends Fragment {
         translatedHonrizontal = (HorizontalScrollView) myView.findViewById(R.id.translatedTextHorizontal);
         mediaController = new MediaController(getContext());
 
+        translatedHonrizontal.setHorizontalScrollBarEnabled(false);
         resultContentView.setParent(translatedHonrizontal);
         videoView.setPlayPauseListener(new SignVideoView.PlayPauseListener() {
             @Override
