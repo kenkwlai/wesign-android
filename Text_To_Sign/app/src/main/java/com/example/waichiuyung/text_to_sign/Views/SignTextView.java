@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
+import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
 import com.example.waichiuyung.text_to_sign.Vocabulary;
 
 import java.util.List;
@@ -44,7 +45,11 @@ public class SignTextView extends TextView {
         @Override
         public void run() {
             long duration = (long) (mVocabList.get(mIndex).getDuration() * 1000);
-            mView.append(mVocabList.get(mIndex).getWord() + " ");
+            if (MyUtils.matchType(mVocabList.get(mIndex), "number") && MyUtils.checkInt(String.valueOf(mVocabList.get(mIndex).getWord().charAt(0)))) {
+                mView.append(mVocabList.get(mIndex).getWord().charAt(0) + " ");
+            } else {
+                mView.append(mVocabList.get(mIndex).getWord() + " ");
+            }
             mView.post(new Runnable() {
                 @Override
                 public void run() {
