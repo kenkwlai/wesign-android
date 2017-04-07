@@ -43,4 +43,13 @@ public class MyUtils {
         return (v.getType1().equals(type) || v.getType2().equals(type));
     }
 
+    public static boolean checkInt(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 }

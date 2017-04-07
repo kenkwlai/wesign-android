@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.waichiuyung.text_to_sign.Factories.RestCall;
@@ -43,19 +44,19 @@ public class LoadingActivity extends Activity{
         protected ArrayList<Vocabulary> doInBackground(Void... params) {
             final ArrayList<Vocabulary> vocabularies = new ArrayList<>();
             prefs = getSharedPreferences(CONFIG_PREFS, 0);
-            final Double version = (double) prefs.getFloat(VERSION_JSON, 0);
+            final String version = prefs.getString(VERSION_JSON, "");
             RestCall.syncGet(VERSION_URL, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     final SharedPreferences.Editor edit = prefs.edit();
-                    double versionResponse = 0.0;
+                    String versionResponse = null;
                     try {
-                        versionResponse = Double.valueOf(response.getString("version"));
+                        versionResponse = response.getString("version");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if (!version.equals(versionResponse)) {
-                        edit.putFloat(VERSION_JSON, (float) versionResponse);
+                    if (version.compareTo(versionResponse) != 0) {
+                        edit.putString(VERSION_JSON, versionResponse);
                         RestCall.syncGet(DICTIONARY_URL, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
