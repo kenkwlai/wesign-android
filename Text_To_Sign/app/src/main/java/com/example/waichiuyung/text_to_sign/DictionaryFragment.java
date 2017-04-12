@@ -417,6 +417,7 @@ public class DictionaryFragment extends Fragment {
             if (wordFilter == null) {
                 wordFilter = new WordFilter();
             }
+            vocab_list = addList();
             return wordFilter;
         }
 
@@ -527,8 +528,9 @@ public class DictionaryFragment extends Fragment {
                     // search content in friend list
                     for (WordList word : vocab_list) {
                         if (word.getWord().contains(constraint.toString())) {
+                            Log.v("con",constraint.toString());
                             tempList.add(word);
-                            Log.v("link",word.getPath());
+                            Log.v("link",word.getWord());
                         }
                     }
                     filterResults.count = tempList.size();
