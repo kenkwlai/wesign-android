@@ -5,18 +5,22 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.LoginFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
@@ -28,6 +32,9 @@ import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
 import com.example.waichiuyung.text_to_sign.Views.SignVideoView;
 
 import java.util.ArrayList;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 
 /**
@@ -45,6 +52,7 @@ public class DictionaryFragment extends Fragment {
     ArrayList<String> bookmark_list = new ArrayList<String>();
     ArrayList<Vocabulary> vocabularies;
 
+    View myView;
     ArrayAdapter<WordList> VocabArrayAdapter;
 
     private SharedPreferences bmPrefs;
@@ -58,7 +66,7 @@ public class DictionaryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View myView = inflater.inflate(R.layout.fragment_dictionary, container, false);
+        myView = inflater.inflate(R.layout.fragment_dictionary, container, false);
 
         // get vocabularies from MainActivity
         Bundle bundle = this.getArguments();
@@ -403,6 +411,7 @@ public class DictionaryFragment extends Fragment {
         private ArrayList<WordList> filteredList;
 
 
+
         public VocabListAdapter(ArrayList<WordList> vocab_list) {
             super(DictionaryFragment.this.getContext(), R.layout.listitem_dictionary, vocab_list);
             this.vocab_list = vocab_list;
@@ -430,6 +439,8 @@ public class DictionaryFragment extends Fragment {
             }
 
             // init
+//            final ImageView mPlayButton = (ImageView) itemView.findViewById(R.id.playButton);
+
             final WordList currentWordList = filteredList.get(position);
             clicked.add("FALSE");
             bookmarked.add(false);
@@ -444,19 +455,30 @@ public class DictionaryFragment extends Fragment {
                         @Override
                         public void onPlay() {
                             mediaController.hide();
+                            mediaController.setVisibility(GONE);
                         }
 
                         @Override
                         public void onPause() {
                             mediaController.hide();
+                            mediaController.setVisibility(GONE);
                         }
                     });
+                    videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            Log.v("SDD","END");
+                            mediaController.setVisibility(VISIBLE);
+                        }
+                    });
+
                     clicked.set(position,"TRUE");
                     if (clicked.get(position) != "FALSE") {
                         videoView.setVisibility(View.VISIBLE);
                     }
                     try {
-                        String link = vocab_list.get(position).getPath();
+                        String link=vocab_list.get(position).getPath();
                         mediaController.setAnchorView(videoView);
                         Uri video = Uri.parse(link);
                         videoView.setMediaController(mediaController);
@@ -464,14 +486,14 @@ public class DictionaryFragment extends Fragment {
                         videoView.start();
                         mediaController.hide();
                     } catch (Exception e) {
-                        // TODO: handle exception
                         // Toast.makeText(this, "Error connecting", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+
             SignVideoView videoView = (SignVideoView) itemView.findViewById(R.id.videoView);
             if (clicked.get(position) == "FALSE") {
-                videoView.setVisibility(View.GONE);
+                videoView.setVisibility(GONE);
             }
 
             // Set Vocab Text

@@ -17,6 +17,7 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/icon_bookmark" />
+
     <com.example.waichiuyung.text_to_sign.Views.SignVideoView
         android:id="@+id/videoView"
         android:paddingLeft="20dp"
@@ -26,4 +27,6 @@
         android:layout_gravity="center"
         android:layout_below="@+id/vocab"
         android:visibility="gone" />
+
+
 </RelativeLayout>

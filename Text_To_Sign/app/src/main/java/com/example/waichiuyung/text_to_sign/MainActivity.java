@@ -67,7 +67,7 @@ public class MainActivity extends FragmentActivity implements Serializable{
                                     TranslateFragment translate = new TranslateFragment();
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                     translate.setArguments(bundle);
-                                    transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+                                    transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                                     transaction.replace(R.id.fragment_area, translate);
                                     transaction.addToBackStack(null);
                                     transaction.commit();
@@ -82,11 +82,7 @@ public class MainActivity extends FragmentActivity implements Serializable{
                                     DictionaryFragment dictionary = new DictionaryFragment();
                                     dictionary.setArguments(bundle);
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                    if (currentFragment == "Translate"){
-                                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                                    }else{
-                                        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-                                    }
+                                    transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                                     transaction.replace(R.id.fragment_area, dictionary);
                                     transaction.addToBackStack(null);
                                     transaction.commit();
@@ -101,7 +97,7 @@ public class MainActivity extends FragmentActivity implements Serializable{
                                     BookmarkFragment bookmark = new BookmarkFragment();
                                     bookmark.setArguments(bundle);
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                    transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                                    transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                                     transaction.replace(R.id.fragment_area, bookmark);
                                     transaction.addToBackStack(null);
                                     transaction.commit();

@@ -2,6 +2,7 @@ package com.example.waichiuyung.text_to_sign;
 
 
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,9 @@ import android.widget.VideoView;
 import com.example.waichiuyung.text_to_sign.Views.SignVideoView;
 
 import java.util.ArrayList;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 
 /**
@@ -117,13 +121,24 @@ public class BookmarkFragment extends Fragment {
                         @Override
                         public void onPlay() {
                             mediaController.hide();
+                            mediaController.setVisibility(GONE);
                         }
 
                         @Override
                         public void onPause() {
                             mediaController.hide();
+                            mediaController.setVisibility(GONE);
                         }
                     });
+                    videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            Log.v("SDD","END");
+                            mediaController.setVisibility(VISIBLE);
+                        }
+                    });
+
                     clicked.set(position,"TRUE");
                     if (clicked.get(position) != "FALSE") {
                         videoView.setVisibility(View.VISIBLE);
@@ -137,11 +152,11 @@ public class BookmarkFragment extends Fragment {
                         videoView.start();
                         mediaController.hide();
                     } catch (Exception e) {
-                        // TODO: handle exception
                         // Toast.makeText(this, "Error connecting", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+
             SignVideoView videoView = (SignVideoView) itemView.findViewById(R.id.videoView);
             if (clicked.get(position) == "FALSE") {
                 videoView.setVisibility(View.GONE);
