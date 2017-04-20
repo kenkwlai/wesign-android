@@ -399,6 +399,11 @@ public class DictionaryFragment extends Fragment {
     // set up List
     private void setupList(ArrayList<WordList> list) {
         VocabArrayAdapter = new VocabListAdapter(list);
+        for (WordList word :list){
+            Log.v("pathWod",word.getPath());
+            Log.v("pathWod",word.getWord());
+
+        }
         listView.setAdapter(VocabArrayAdapter);
         VocabArrayAdapter.notifyDataSetChanged();
     }
@@ -449,6 +454,8 @@ public class DictionaryFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                    Log.v("SDSD",filteredList.get(position).getWord());
+                    Log.v("path",filteredList.get(position).getPath());
                     SignVideoView videoView = (SignVideoView) arg1.findViewById(R.id.videoView);
                     final MediaController mediaController = new MediaController(getContext());
                     videoView.setPlayPauseListener(new SignVideoView.PlayPauseListener() {
@@ -468,7 +475,6 @@ public class DictionaryFragment extends Fragment {
 
                         @Override
                         public void onCompletion(MediaPlayer mp) {
-                            Log.v("SDD","END");
                             mediaController.setVisibility(VISIBLE);
                         }
                     });
@@ -478,7 +484,7 @@ public class DictionaryFragment extends Fragment {
                         videoView.setVisibility(View.VISIBLE);
                     }
                     try {
-                        String link=vocab_list.get(position).getPath();
+                        String link=filteredList.get(position).getPath();
                         mediaController.setAnchorView(videoView);
                         Uri video = Uri.parse(link);
                         videoView.setMediaController(mediaController);
@@ -550,9 +556,7 @@ public class DictionaryFragment extends Fragment {
                     // search content in friend list
                     for (WordList word : vocab_list) {
                         if (word.getWord().contains(constraint.toString())) {
-                            Log.v("con",constraint.toString());
                             tempList.add(word);
-                            Log.v("link",word.getWord());
                         }
                     }
                     filterResults.count = tempList.size();
