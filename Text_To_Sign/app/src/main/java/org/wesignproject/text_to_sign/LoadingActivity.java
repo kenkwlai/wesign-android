@@ -1,14 +1,13 @@
-package com.example.waichiuyung.text_to_sign;
+package org.wesignproject.text_to_sign;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.example.waichiuyung.text_to_sign.Factories.RestCall;
+import org.wesignproject.text_to_sign.Factories.RestCall;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -20,11 +19,11 @@ import cz.msebera.android.httpclient.Header;
 import java.util.ArrayList;
 
 
-import static com.example.waichiuyung.text_to_sign.Config.Config.CONFIG_PREFS;
-import static com.example.waichiuyung.text_to_sign.Config.Config.DICTIONARY_URL;
-import static com.example.waichiuyung.text_to_sign.Config.Config.VERSION_JSON;
-import static com.example.waichiuyung.text_to_sign.Config.Config.VERSION_URL;
-import static com.example.waichiuyung.text_to_sign.Config.Config.VOCAB_JSON;
+import static org.wesignproject.text_to_sign.Config.Config.CONFIG_PREFS;
+import static org.wesignproject.text_to_sign.Config.Config.DICTIONARY_URL;
+import static org.wesignproject.text_to_sign.Config.Config.VERSION_JSON;
+import static org.wesignproject.text_to_sign.Config.Config.VERSION_URL;
+import static org.wesignproject.text_to_sign.Config.Config.VOCAB_JSON;
 
 public class LoadingActivity extends Activity{
 

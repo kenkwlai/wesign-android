@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign;
+package org.wesignproject.text_to_sign;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

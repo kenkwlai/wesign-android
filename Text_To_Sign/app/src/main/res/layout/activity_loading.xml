@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/loading_screen"
-    tools:context="com.example.waichiuyung.text_to_sign.LoadingActivity">
+    tools:context="com.example.waichiuyung.text_to_sign.com.example.text_to_sign.LoadingActivity">
 
     <ProgressBar
         android:layout_width="wrap_content"

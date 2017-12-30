@@ -1,13 +1,9 @@
-package com.example.waichiuyung.text_to_sign;
+package org.wesignproject.text_to_sign;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -15,20 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
-import com.example.waichiuyung.text_to_sign.Adaptors.VocabularyAdapter;
-import com.example.waichiuyung.text_to_sign.Factories.RestCall;
-import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
-import com.example.waichiuyung.text_to_sign.Views.SignTextView;
-import com.example.waichiuyung.text_to_sign.Views.SignVideoView;
+import org.wesignproject.text_to_sign.Factories.RestCall;
+import org.wesignproject.text_to_sign.Views.SignVideoView;
+import org.wesignproject.text_to_sign.R;
+import org.wesignproject.text_to_sign.Utils.MyUtils;
+import org.wesignproject.text_to_sign.Views.SignTextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -45,8 +39,8 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
-import static com.example.waichiuyung.text_to_sign.Config.Config.TRANSLATE_TEXT_URL;
-import static com.example.waichiuyung.text_to_sign.Config.Config.TRANSLATE_URL;
+import static org.wesignproject.text_to_sign.Config.Config.TRANSLATE_TEXT_URL;
+import static org.wesignproject.text_to_sign.Config.Config.TRANSLATE_URL;
 
 
 /**

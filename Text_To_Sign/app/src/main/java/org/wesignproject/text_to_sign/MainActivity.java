@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign;
+package org.wesignproject.text_to_sign;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -9,15 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import org.wesignproject.text_to_sign.Config.Config;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.waichiuyung.text_to_sign.Config.Config.CONFIG_PREFS;
-import static com.example.waichiuyung.text_to_sign.Config.Config.VOCAB_JSON;
 
 public class MainActivity extends FragmentActivity implements Serializable{
 
@@ -35,10 +33,12 @@ public class MainActivity extends FragmentActivity implements Serializable{
         ArrayList<Vocabulary> vocabularies = new ArrayList<>();
 
         // get vocab list from saved JSON
-        Prefs = getSharedPreferences(CONFIG_PREFS, 0);
-        String JSON = Prefs.getString(VOCAB_JSON, "");
-        List<Vocabulary> result = new Gson().fromJson(JSON, new TypeToken<List<Vocabulary>>() {}.getType());
-        vocabularies.addAll(result);
+        Prefs = getSharedPreferences(Config.CONFIG_PREFS, 0);
+        String JSON = Prefs.getString(Config.VOCAB_JSON, "");
+        if (!JSON.equals("")) {
+            List<Vocabulary> result = new Gson().fromJson(JSON, new TypeToken<List<Vocabulary>>() {}.getType());
+            vocabularies.addAll(result);
+        }
 
         bundle = new Bundle();
         bundle.putSerializable("vocabularies", vocabularies);

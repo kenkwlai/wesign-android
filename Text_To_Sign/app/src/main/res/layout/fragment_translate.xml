@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.waichiuyung.text_to_sign.TranslateFragment">
+    tools:context="com.example.waichiuyung.text_to_sign.com.example.text_to_sign.TranslateFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:id="@+id/translationText" />
 
-        <com.example.waichiuyung.text_to_sign.Views.SignVideoView
+        <org.wesignproject.text_to_sign.Views.SignVideoView
             android:id="@+id/videoView"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -70,7 +70,7 @@
             android:layout_weight="2"
             android:id="@+id/translatedTextHorizontal">
 
-            <com.example.waichiuyung.text_to_sign.Views.SignTextView
+            <org.wesignproject.text_to_sign.Views.SignTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"

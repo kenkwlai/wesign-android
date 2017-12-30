@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign.Views;
+package org.wesignproject.text_to_sign.Views;
 
 import android.content.Context;
 import android.util.AttributeSet;

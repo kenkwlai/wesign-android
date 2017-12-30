@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign.Adaptors;
+package org.wesignproject.text_to_sign.Adapters;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import com.example.waichiuyung.text_to_sign.R;
-import com.example.waichiuyung.text_to_sign.Vocabulary;
+import org.wesignproject.text_to_sign.R;
+import org.wesignproject.text_to_sign.Vocabulary;
 
 import java.util.List;
 

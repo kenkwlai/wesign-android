@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign.Factories;
+package org.wesignproject.text_to_sign.Factories;
 
 import android.content.Context;
 

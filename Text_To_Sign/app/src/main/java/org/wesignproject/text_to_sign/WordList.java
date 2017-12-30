@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign;
+package org.wesignproject.text_to_sign;
 
 /**
  * Created by waichiuyung on 19/1/2017.
@@ -10,16 +10,16 @@ public class WordList {
     private String path;
     private String prefix;
     private double duration;
-    private String type1;
-    private String type2;
+    private String mainType;
+    private String subType;
 
-    public WordList(String word, String path, String prefix, double duration, String type1, String type2) {
+    public WordList(String word, String path, String prefix, double duration, String mainType, String subType) {
         this.word = word;
         this.path = path;
         this.prefix = prefix;
         this.duration = duration;
-        this.type1 = type1;
-        this.type2 = type2;
+        this.mainType = mainType;
+        this.subType = subType;
     }
 
     public String getWord(){
@@ -54,19 +54,19 @@ public class WordList {
         this.duration = duration;
     }
 
-    public String getType1(){
-        return type1;
+    public String getMainType(){
+        return mainType;
     }
 
-    public void setType1(String type1){
-        this.type1 = type1;
+    public void setMainType(String mainType){
+        this.mainType = mainType;
     }
 
-    public String getType2() {
-        return type2;
+    public String getSubType() {
+        return subType;
     }
 
-    public void setType2(String type2) {
-        this.type2 = type2;
+    public void setSubType(String subType) {
+        this.subType = subType;
     }
 }

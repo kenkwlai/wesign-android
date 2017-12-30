@@ -1,15 +1,10 @@
-package com.example.waichiuyung.text_to_sign.Utils;
+package org.wesignproject.text_to_sign.Utils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.graphics.Color;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
 
-import com.example.waichiuyung.text_to_sign.Vocabulary;
+import org.wesignproject.text_to_sign.Vocabulary;
 
 /**
  * Created by Ken Lai on 11/2/2017.
@@ -40,7 +35,7 @@ public class MyUtils {
     }
 
     public static boolean matchType(Vocabulary v, String type) {
-        return (v.getType1().equals(type) || v.getType2().equals(type));
+        return (v.getMainType().equals(type) || v.getSubType().equals(type));
     }
 
     public static boolean checkInt(String input) {

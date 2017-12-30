@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign;
+package org.wesignproject.text_to_sign;
 
 
 import android.content.SharedPreferences;
@@ -17,9 +17,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import com.example.waichiuyung.text_to_sign.Views.SignVideoView;
+import org.wesignproject.text_to_sign.Views.SignVideoView;
 
 import java.util.ArrayList;
 
@@ -68,7 +67,7 @@ public class BookmarkFragment extends Fragment {
         for (Vocabulary word : vocabularies) {
             if (bookmark_list!= null){
                 if (bookmark_list.contains(word.getWord())){
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
                 }
             }
         }

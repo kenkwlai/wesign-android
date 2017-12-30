@@ -18,7 +18,7 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/icon_bookmark" />
 
-    <com.example.waichiuyung.text_to_sign.Views.SignVideoView
+    <org.wesignproject.text_to_sign.Views.SignVideoView
         android:id="@+id/videoView"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"

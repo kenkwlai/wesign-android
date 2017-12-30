@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.waichiuyung.text_to_sign.MainActivity">
+    tools:context="com.example.waichiuyung.text_to_sign.com.example.text_to_sign.MainActivity">
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"

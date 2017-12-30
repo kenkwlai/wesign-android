@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign.Views;
+package org.wesignproject.text_to_sign.Views;
 
 import android.content.Context;
 import android.os.Handler;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
-import com.example.waichiuyung.text_to_sign.Vocabulary;
+import org.wesignproject.text_to_sign.Utils.MyUtils;
+import org.wesignproject.text_to_sign.Vocabulary;
 
 import java.util.List;
 

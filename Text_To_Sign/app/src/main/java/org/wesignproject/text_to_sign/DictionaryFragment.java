@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign;
+package org.wesignproject.text_to_sign;
 
 
 import android.app.Activity;
@@ -10,26 +10,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.LoginFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import com.example.waichiuyung.text_to_sign.Utils.MyUtils;
-import com.example.waichiuyung.text_to_sign.Views.SignVideoView;
+import org.wesignproject.text_to_sign.Utils.MyUtils;
+import org.wesignproject.text_to_sign.Views.SignVideoView;
+import org.wesignproject.text_to_sign.R;
 
 import java.util.ArrayList;
 
@@ -74,7 +71,7 @@ public class DictionaryFragment extends Fragment {
             vocabularies = (ArrayList<Vocabulary>) bundle.getSerializable("vocabularies");
         }
         for (Vocabulary word : vocabularies) {
-            vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+            vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
         }
 
         all_selected=true;
@@ -333,13 +330,13 @@ public class DictionaryFragment extends Fragment {
 
         if (all_selected) {
             for (Vocabulary word : vocabularies) {
-                vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+                vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
             }
         }
         if (noun_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "noun")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
                 }
 
             }
@@ -347,7 +344,7 @@ public class DictionaryFragment extends Fragment {
         if (verb_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "verb")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
                 }
 
             }
@@ -355,7 +352,7 @@ public class DictionaryFragment extends Fragment {
         if (adjective_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "adjective")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
                 }
 
             }
@@ -363,7 +360,7 @@ public class DictionaryFragment extends Fragment {
         if (pronoun_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "pronoun")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
                 }
 
             }
@@ -371,7 +368,7 @@ public class DictionaryFragment extends Fragment {
         if (number_selected) {
             for (Vocabulary word : vocabularies) {
                 if (MyUtils.matchType(word, "number")) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
                 }
 
             }
@@ -379,7 +376,7 @@ public class DictionaryFragment extends Fragment {
         if (other_selected) {
             for (Vocabulary word : vocabularies) {
                 if (!(MyUtils.matchType(word, "noun") || MyUtils.matchType(word, "verb") || MyUtils.matchType(word, "adjective") || MyUtils.matchType(word, "pronoun") || MyUtils.matchType(word, "number"))) {
-                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getType1(), word.getType2()));
+                    vocab_list.add(new WordList(word.getWord(), word.getPath(), word.getPrefix(), word.getDuration().intValue(), word.getMainType(), word.getSubType()));
                 }
 
             }

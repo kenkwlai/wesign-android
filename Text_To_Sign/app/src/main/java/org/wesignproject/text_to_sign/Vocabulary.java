@@ -1,4 +1,4 @@
-package com.example.waichiuyung.text_to_sign;
+package org.wesignproject.text_to_sign;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,10 +15,10 @@ public class Vocabulary implements Serializable {
     private String word;
     @JsonProperty("path")
     private String path;
-    @JsonProperty("type1")
-    private String type1;
-    @JsonProperty("type2")
-    private String type2;
+    @JsonProperty("mainType")
+    private String mainType;
+    @JsonProperty("subType")
+    private String subType;
     @JsonProperty("prefix")
     private String prefix;
     @JsonProperty("duration")
@@ -40,11 +40,11 @@ public class Vocabulary implements Serializable {
         return prefix;
     }
 
-    public String getType1() {
-        return type1;
+    public String getMainType() {
+        return mainType;
     }
 
-    public String getType2() {
-        return type2;
+    public String getSubType() {
+        return subType;
     }
 }
